@@ -41,3 +41,6 @@ members_per_group = 2
 combo = Combo.new(group, members_per_group)
 combo.run
 ```
+###Caveats:
+Currently the code is a typical [Spherical cows](http://en.wikipedia.org/wiki/Spherical_cow) solution, as the number of students per team must divide evenly into the total number of students.
+
