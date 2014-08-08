@@ -14,7 +14,7 @@ Recursion. Recursively explore every possible combination of groups, selecting t
 I do not own a computer with 5TB of RAM to handle the call stack that many combinations would generate! So until I can work out some kind of branch and bound algorithm (TODO) to cut down on the number of combinations under consideration, I have to take a different tack.
 
 ###Current Solution:
-Optimize each individual week's groupings and call it a day. As this does not optimize for the set of weeks as a whole, it will necessarily fall short of the optimal solution. To measure how far off of optimal we are, I include the #schoolgirls method, which runs the [Kirkman's schoolgirl problem](http://en.wikipedia.org/wiki/Kirkman's_schoolgirl_problem) scenario, a classic combinatorics problem with a known solution.
+Optimize each individual week's groupings and call it a day. As this does not optimize for the set of weeks as a whole, it will necessarily fall short of the optimal solution. To measure how far off of optimal we are, I include the `#schoolgirls` method, which runs the [Kirkman's schoolgirl problem](http://en.wikipedia.org/wiki/Kirkman's_schoolgirl_problem) scenario, a classic combinatorics problem with a known solution.
 
 ###Progress:
 Kirkman's (perfect) solution takes seven iterations. My algorithm currently takes eight. Not bad!
