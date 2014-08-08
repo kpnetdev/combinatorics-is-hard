@@ -36,11 +36,11 @@ boots
 boots(per_team: 4)
 
 # custom scenario
-group = ["Drake", "Rihanna", "Chris Brown"]
+group = ["Drake", "Rihanna", "Chris Brown", "Rihanna's Best Friend"]
 members_per_group = 2
 combo = Combo.new(group, members_per_group)
 combo.run
 ```
-###Caveats:
-Currently the code is a typical [Spherical cows](http://en.wikipedia.org/wiki/Spherical_cow) solution, as the number of students per team must divide evenly into the total number of students.
-
+##TODO
+- currently the code is a typical [Spherical cows](http://en.wikipedia.org/wiki/Spherical_cow) solution, as the number of students per team must divide evenly into the total number of students; refactor to allow for uneven group totals
+- it doesn't actually print out the groupings yet(!), as I'm still trying to optimize the algorithm and didn't want to look at screens and screens of results - easy fix
