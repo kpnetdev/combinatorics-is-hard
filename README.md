@@ -27,19 +27,19 @@ pry -r ./new_combo.rb
 ```
 ```ruby
 # runs Kirkman's schoolgirls problem
-schoolgirls
+pry(main)> schoolgirls
 
 # runs a basic, 24 person, 6 per-team scenario
-boots
+pry(main)> boots
 
 # same, but with only 4 people per-team
-boots(per_team: 4)
+pry(main)> boots(per_team: 4)
 
 # custom scenario
-group = ["Drake", "Rihanna", "Chris Brown", "Rihanna's Best Friend"]
-members_per_group = 2
-combo = Combo.new(group, members_per_group)
-combo.run
+pry(main)> group = ["Drake", "Rihanna", "Chris Brown", "Rihanna's Best Friend"]
+pry(main)> members_per_group = 2
+pry(main)> combo = Combo.new(group, members_per_group)
+pry(main)> combo.run
 ```
 ##TODO
 - currently the code is a typical [Spherical cows](http://en.wikipedia.org/wiki/Spherical_cow) solution, as the number of students per team must divide evenly into the total number of students; refactor to allow for uneven group totals
