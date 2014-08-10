@@ -1,7 +1,7 @@
 require 'pry'
 
 class Combo
-  attr_accessor :yet_to_pair, :cohort, :sample_size
+  attr_reader :yet_to_pair, :cohort, :sample_size
 
   def initialize(cohort, students_per_team, opts={})
     @cohort = cohort
