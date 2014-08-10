@@ -5,10 +5,10 @@ class Combo
 
   def initialize(cohort, students_per_team, opts={})
     @cohort = cohort
-    # @score = nil
     @per_team = students_per_team
-    @sample_size = opts[:sample] || 3
-    @bind = opts[:bind]
+    @score = nil	# I want all my instance variables declared here for clarity's sake
+    @bind = opts[:bind]	# for pry debugging - remove when code is perfect(!)
+    @sample_size = opts[:sample] || 3	# number of top pairings to use when making groupings
     @yet_to_pair = Hash.new     # key is student, value is array of students they've yet to pair with
     @cohort.each do |student|
       @yet_to_pair[student] = @cohort - [student]
@@ -37,10 +37,7 @@ class Combo
     until @score == 0 do
       counter += 1
       top_groupings = generate_potential_pairings
-      # puts "done generating"
-      # puts highest_rated(top_groupings).count
       rated_groupings = top_groupings.sort_by {|group| rate_pairings(group)}
-      # puts top_rated(rated_groupings).count
       best_group = rated_groupings.last
       process_group(best_group)
       refresh_score
@@ -87,18 +84,15 @@ class Combo
     rated = rated_groups.dup
     top_score = rate_pairings(rated.last)
     return_list = [rated.pop]
-    # return_list = [rated.pop]
     return_list << rated.pop while (rate_pairings(return_list.last) == top_score)
     return_list.pop
     return_list
-    # binding.pry
   end
 
   def generate_potential_pairings
     master_list = []
     master_list = new_iterative(master_list) until fully_populated?(master_list)
     uniq_it(master_list)
-    # master_list
   end
 
   def uniq_it(master_list)
@@ -142,14 +136,6 @@ class Combo
     top_three.compact
   end
 
-  # def old_prospective_score(team, back=@yet_to_pair.dup)
-  #   backup_hash = @yet_to_pair.dup
-  #   before_processing_score = score_teams(team, backup_hash)
-  #   backup_hash = process_teams(team, backup_hash)
-  #   after_processing_score = score_teams(team, backup_hash)
-  #   before_processing_score - after_processing_score
-  # end
-
   def prospective_score(team)
     team.inject(0) do |sum, boot|
       other_team_members = team - [boot]
@@ -157,8 +143,6 @@ class Combo
       sum + common_boots.count
     end
   end
-
-
 
   def score_teams(team, hash_to_score=@yet_to_pair)
     team.inject(0) {|score, boot| score + hash_to_score[boot].length }
@@ -183,10 +167,8 @@ class Combo
     puts "*" * 10
     puts "score: #{@score}"
     puts "paired with everybody: #{(students_with_num_matches(0)).length}"
-    # puts "*" * 10
     puts "missed one pair: #{(students_with_num_matches(1)).length}"
     puts "missed more than one: #{(@yet_to_pair.keys.select {|k| @yet_to_pair[k].length > 1}).length}"
-    # sample_student(teams_list)
   end
 
   def sample_student(teams_list)
