@@ -1,7 +1,7 @@
 require 'pry'
 
 class Combo
-  attr_accessor :yet_to_pair, :cohort, :master_combos, :sample_size
+  attr_accessor :yet_to_pair, :cohort, :sample_size
 
   def initialize(cohort, students_per_team, opts={})
     @cohort = cohort
@@ -15,7 +15,7 @@ class Combo
     end
   end
 
-  def refresh_score
+  def refresh_score	# recalculate the memoized @score variable
     @score = @yet_to_pair.values.inject(:+).count
   end
 
@@ -172,7 +172,6 @@ class Combo
       end
     end
     hash_to_process
-    # @master_combos.delete(team)
   end
 
   def students_with_num_matches(number)
