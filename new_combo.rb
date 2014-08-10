@@ -20,7 +20,6 @@ class Combo
   end
 
   def easy_first_pass
-    @prev = @score
     students = @cohort.dup
     teams_list = []
     (@cohort.length / @per_team).times do
@@ -37,7 +36,6 @@ class Combo
     easy_first_pass
     until @score == 0 do
       counter += 1
-      @prev = @score
       top_groupings = generate_potential_pairings
       # puts "done generating"
       # puts highest_rated(top_groupings).count
