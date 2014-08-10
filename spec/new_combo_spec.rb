@@ -47,24 +47,24 @@ describe Combo do
 		end
 	end
 
-	describe "#perfect_score" do
-
-		it "gives the top pairing score possible" do
-			expect(@c.perfect_score).to eq(6)
-		end
-
-		it "works for boots too" do
-			b = Combo.new((1..24).to_a, 6)
-			expect(b.perfect_score).to eq(120)
-		end
-	end
-
 	describe "maybe refactor score_teams" do
 		it "works the way I think" do
 			expect(@c.score_teams(["A", "B"])).to eq(10)
 		end
 	end
 
+
+#	describe "#perfect_score" do
+#
+#		it "gives the top pairing score possible" do
+#			expect(@c.perfect_score).to eq(6)
+#		end
+#
+#		it "works for boots too" do
+#			b = Combo.new((1..24).to_a, 6)
+#			expect(b.perfect_score).to eq(120)
+#		end
+#	end
 
 
 	# it "removes the teams from the master combo list" do

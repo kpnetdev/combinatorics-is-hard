@@ -15,10 +15,6 @@ class Combo
     end
   end
 
-  def perfect_score
-    @cohort.length * (@per_team - 1)
-  end
-
   def refresh_score
     @score = @yet_to_pair.values.inject(:+).count
   end
@@ -185,18 +181,10 @@ class Combo
     @yet_to_pair.keys.select {|k| @yet_to_pair[k].length == number}
   end
 
-  def percentage_off
-    @prev ||= @score
-    diff = @prev - @score
-    binding.pry if @bind
-    ((diff.to_f / perfect_score)  * 100).to_i
-  end
-
-  def score(counter, teams_list)
+ def score(counter, teams_list)
     puts "ROUND #{counter}"
     puts "*" * 10
     puts "score: #{@score}"
-    puts "percentage of perfect: #{percentage_off}"
     puts "paired with everybody: #{(students_with_num_matches(0)).length}"
     # puts "*" * 10
     puts "missed one pair: #{(students_with_num_matches(1)).length}"
@@ -213,15 +201,6 @@ class Combo
     puts
   end
 end
-
-class Round  # Eh. Is 'Round' really what I want? What holds the master hash?
-  attr_reader :score
-
-  def refresh_score!
-  end
-
-end
-
 
 
 def schoolgirls(opts={})
