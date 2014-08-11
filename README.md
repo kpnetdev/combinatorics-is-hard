@@ -20,7 +20,7 @@ Optimize each individual week's groupings and call it a day. As this does not op
 Kirkman's (perfect) solution takes seven iterations. My algorithm currently takes eight. Not bad!
 
 ###Instructions:
-I'm still playing around with it, so it's set up to run in a pry REPL session, with ultimately unnecessary `attr_accessors` and other cruft still in there. Just require it and run `#boots` ('boots' is the nickname for Dev Bootcamp students) for a 24 person, 6 person per team example, or go ahead and instantiate your own `Combo` instance and `#run` it.
+I'm still playing around with it, so it's set up to run in a pry REPL session. Just require it and run `#boots` ('boots' is the nickname for Dev Bootcamp students) for a 24 person, 6 person per team example, or go ahead and instantiate your own `Combo` instance and `#run` it.
 
 ```sh
 pry -r ./new_combo.rb
