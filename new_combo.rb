@@ -15,10 +15,6 @@ class Combo
     end
   end
 
-  def refresh_score                 # recalculate the memoized @score variable
-    @score = @yet_to_pair.values.inject(:+).count
-  end
-
   def easy_first_pass               # initial grouping is easy - nobody's paired with anybody yet
     students = @cohort.dup
     teams_list = []
@@ -28,7 +24,7 @@ class Combo
       teams_list << team
     end
     refresh_score
-    tally_results(1, teams_list)            # output 'score' for this round
+    tally_results(1, teams_list)    # output 'score' for this round
   end
 
   def run
@@ -46,8 +42,10 @@ class Combo
     puts "#{counter} iterations"
   end
 
-  def process_group(group)
-    group.each {|team| process_teams(team)}
+  def generate_potential_pairings
+    master_list = []
+    master_list = new_iterative(master_list) until fully_populated?(master_list)
+    uniq_it(master_list)
   end
 
   def new_iterative(master_list)
@@ -60,10 +58,9 @@ class Combo
     new_list
   end
 
-  def generate_potential_pairings
-    master_list = []
-    master_list = new_iterative(master_list) until fully_populated?(master_list)
-    uniq_it(master_list)
+  def fully_populated?(group_list)
+    return false if group_list.empty?
+    group_list.last.flatten.count == @cohort.count
   end
 
   def uniq_it(master_list)
@@ -77,25 +74,13 @@ class Combo
     groups.inject(0) {|cumulative_score, group| cumulative_score + prospective_score(group)}
   end
 
-  def next_set_of_teams(groups_so_far)
-    return_list = []
-    students = @cohort - groups_so_far.flatten
-    temp_hash = @yet_to_pair.dup
-    groups_so_far.each do |group|
-      temp_hash = process_teams(group, temp_hash)
-    end
-    next_best_set_of_teams = get_top_teams(students, temp_hash)
-    next_best_set_of_teams.each do |next_team|
-      return_list << groups_so_far + [next_team]
-    end
-    return_list
+  def process_group(group)
+    group.each {|team| process_teams(team)}
   end
 
-  def fully_populated?(group_list)
-    return false if group_list.empty?
-    group_list.last.flatten.count == @cohort.count
+  def refresh_score                 # recalculate the memoized @score variable
+    @score = @yet_to_pair.values.inject(:+).count
   end
-
 
   def get_top_teams(students, hash_to_score=@yet_to_pair.dup)
     combos = students.combination(@per_team).to_a
@@ -105,6 +90,16 @@ class Combo
       top_teams << sorted_combos.pop
     end
     top_teams.compact
+  end
+
+  def next_set_of_teams(groups_so_far)
+    return_list = []
+    students = @cohort - groups_so_far.flatten
+    temp_hash = @yet_to_pair.dup
+    groups_so_far.each {|group| temp_hash = process_teams(group, temp_hash)}
+    next_best_set_of_teams = get_top_teams(students, temp_hash)
+    next_best_set_of_teams.each {|next_team| return_list << groups_so_far + [next_team]}
+    return_list
   end
 
   def prospective_score(team)
@@ -125,17 +120,17 @@ class Combo
     hash_to_process
   end
 
-  def students_with_num_matches(number)
-    @yet_to_pair.keys.select {|k| @yet_to_pair[k].length == number}
-  end
-
- def tally_results(counter, teams_list)
+  def tally_results(counter, teams_list)
     puts "ROUND #{counter}"
     puts "*" * 10
     puts "score: #{@score}"
     puts "paired with everybody: #{(students_with_num_matches(0)).length}"
     puts "missed one pair: #{(students_with_num_matches(1)).length}"
     puts "missed more than one: #{(@yet_to_pair.keys.select {|k| @yet_to_pair[k].length > 1}).length}"
+  end
+
+  def students_with_num_matches(number)
+    @yet_to_pair.keys.select {|k| @yet_to_pair[k].length == number}
   end
 end
 
