@@ -60,11 +60,6 @@ class Combo
     new_list
   end
 
-  def top_score(groups)
-    sorted = groups.sort_by {|group| rate_pairings(group)}
-    rate_pairings(sorted.last)
-  end
-
   def generate_potential_pairings
     master_list = []
     master_list = new_iterative(master_list) until fully_populated?(master_list)
