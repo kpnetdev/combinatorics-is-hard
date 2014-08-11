@@ -53,9 +53,9 @@ class Combo
   def new_iterative(master_list)
     new_list = []
     if master_list.empty?
-      get_top_three(@cohort).each {|group| new_list << [group]}
+      get_top_teams(@cohort).each {|group| new_list << [group]}
     else
-      master_list.each {|solution| new_list += next_three(solution)}
+      master_list.each {|solution| new_list += next_set_of_teams(solution)}
     end
     new_list
   end
@@ -77,15 +77,15 @@ class Combo
     groups.inject(0) {|cumulative_score, group| cumulative_score + prospective_score(group)}
   end
 
-  def next_three(groups_so_far)
+  def next_set_of_teams(groups_so_far)
     return_list = []
     students = @cohort - groups_so_far.flatten
     temp_hash = @yet_to_pair.dup
     groups_so_far.each do |group|
       temp_hash = process_teams(group, temp_hash)
     end
-    next_best_three = get_top_three(students, temp_hash)
-    next_best_three.each do |next_team|
+    next_best_set_of_teams = get_top_teams(students, temp_hash)
+    next_best_set_of_teams.each do |next_team|
       return_list << groups_so_far + [next_team]
     end
     return_list
@@ -97,14 +97,14 @@ class Combo
   end
 
 
-  def get_top_three(students, hash_to_score=@yet_to_pair.dup)
+  def get_top_teams(students, hash_to_score=@yet_to_pair.dup)
     combos = students.combination(@per_team).to_a
     sorted_combos = combos.sort_by {|c| prospective_score(c)}
-    top_three = []
+    top_teams = []
     @sample_size.times do
-      top_three << sorted_combos.pop
+      top_teams << sorted_combos.pop
     end
-    top_three.compact
+    top_teams.compact
   end
 
   def prospective_score(team)
