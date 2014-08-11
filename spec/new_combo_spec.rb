@@ -36,22 +36,22 @@ describe Combo do
 		expect(@d.sample_size).to eq(4)
 	end
 
-	describe "#look_ahead" do
+	# describe "#look_ahead" do
 
-		it "doesn't mess up @yet_to_pair" do
-			pre = @c.yet_to_pair.dup
-			group = [["A", "B"], ["C", "D"], ["E", "F"]]
-			@c.look_ahead(group)
+	# 	it "doesn't mess up @yet_to_pair" do
+	# 		pre = @c.yet_to_pair.dup
+	# 		group = [["A", "B"], ["C", "D"], ["E", "F"]]
+	# 		@c.look_ahead(group)
 
-			expect(@c.yet_to_pair).to eq(pre)
-		end
-	end
+	# 		expect(@c.yet_to_pair).to eq(pre)
+	# 	end
+	# end
 
-	describe "maybe refactor score_teams" do
-		it "works the way I think" do
-			expect(@c.score_teams(["A", "B"])).to eq(10)
-		end
-	end
+	# describe "maybe refactor score_teams" do
+	# 	it "works the way I think" do
+	# 		expect(@c.score_teams(["A", "B"])).to eq(10)
+	# 	end
+	# end
 
 
 #	describe "#perfect_score" do

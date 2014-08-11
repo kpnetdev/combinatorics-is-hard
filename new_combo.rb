@@ -33,7 +33,7 @@ class Combo
 
   def run
     counter = 1                   # counter is only used for assessing the round of groupings
-    easy_first_pass   
+    easy_first_pass
     until @score == 0 do          # main loop - keep going until unpaired students == 0
       counter += 1
       top_groupings = generate_potential_pairings
@@ -60,16 +60,6 @@ class Combo
     new_list
   end
 
-  def look_ahead(best_group)
-    ytp_org = @yet_to_pair.dup
-    process_group(best_group)
-    top_groupings = generate_potential_pairings
-    highest_score = top_score(top_groupings)
-    highest_rated = top_groupings.select {|group| rate_pairings(group) == highest_score}
-    @yet_to_pair = ytp_org
-    highest_score
-  end
-
   def top_score(groups)
     sorted = groups.sort_by {|group| rate_pairings(group)}
     rate_pairings(sorted.last)
@@ -77,15 +67,6 @@ class Combo
 
   def highest_rated(groups)
     groups.select {|group| rate_pairings(group) == top_score(groups)}
-  end
-
-  def top_rated(rated_groups)
-    rated = rated_groups.dup
-    top_score = rate_pairings(rated.last)
-    return_list = [rated.pop]
-    return_list << rated.pop while (rate_pairings(return_list.last) == top_score)
-    return_list.pop
-    return_list
   end
 
   def generate_potential_pairings
@@ -143,10 +124,6 @@ class Combo
     end
   end
 
-  def score_teams(team, hash_to_score=@yet_to_pair)
-    team.inject(0) {|score, boot| score + hash_to_score[boot].length }
-  end
-
   def process_teams(team, hash_to_process=@yet_to_pair)
     team.each do |element|
       others = [team - [element]].flatten
@@ -168,15 +145,6 @@ class Combo
     puts "paired with everybody: #{(students_with_num_matches(0)).length}"
     puts "missed one pair: #{(students_with_num_matches(1)).length}"
     puts "missed more than one: #{(@yet_to_pair.keys.select {|k| @yet_to_pair[k].length > 1}).length}"
-  end
-
-  def sample_student(teams_list)
-    student = @cohort.first
-    current_team = teams_list.select {|team| team.include?(student)}
-    puts "sample student: #{student}"
-    puts "     team chosen: #{current_team}"
-    puts "     left to pair: #{@yet_to_pair[student]}"
-    puts
   end
 end
 
