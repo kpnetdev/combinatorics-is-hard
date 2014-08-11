@@ -65,10 +65,6 @@ class Combo
     rate_pairings(sorted.last)
   end
 
-  def highest_rated(groups)
-    groups.select {|group| rate_pairings(group) == top_score(groups)}
-  end
-
   def generate_potential_pairings
     master_list = []
     master_list = new_iterative(master_list) until fully_populated?(master_list)
