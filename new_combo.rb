@@ -6,20 +6,20 @@ class Combo
   def initialize(cohort, students_per_team, opts={})
     @cohort = cohort
     @per_team = students_per_team
-    @score = nil		               # all my instance variables declared here for clarity's sake
-    @bind = opts[:bind]		         # for pry debugging - remove when code is perfect(!)
-    @sample_size = opts[:sample] || 3	# number of top pairings to use when making groupings
-    @yet_to_pair = Hash.new        # key is student, value is array of students they've yet to pair with
+    @score = nil                    # all my instance variables declared here for clarity's sake
+    @bind = opts[:bind]             # for pry debugging - remove when code is perfect(!)
+    @sample_size = opts[:sample] || 3   # number of top pairings to use when making groupings
+    @yet_to_pair = Hash.new         # key is student, value is array of students they've yet to pair with
     @cohort.each do |student|
       @yet_to_pair[student] = @cohort - [student]
     end
   end
 
-  def refresh_score	               # recalculate the memoized @score variable
+  def refresh_score                 # recalculate the memoized @score variable
     @score = @yet_to_pair.values.inject(:+).count
   end
 
-  def easy_first_pass             # initial grouping is easy - nobody's paired with anybody yet
+  def easy_first_pass               # initial grouping is easy - nobody's paired with anybody yet
     students = @cohort.dup
     teams_list = []
     (@cohort.length / @per_team).times do
@@ -28,13 +28,13 @@ class Combo
       teams_list << team
     end
     refresh_score
-    score(1, teams_list)          # output 'score' for this round
+    score(1, teams_list)            # output 'score' for this round
   end
 
   def run
-    counter = 1                   # counter is only used for assessing the round of groupings
+    counter = 1                     # counter is only used for assessing the round of groupings
     easy_first_pass
-    until @score == 0 do          # main loop - keep going until unpaired students == 0
+    until @score == 0 do            # main loop - keep going until unpaired students == 0
       counter += 1
       top_groupings = generate_potential_pairings
       rated_groupings = top_groupings.sort_by {|group| rate_pairings(group)}
