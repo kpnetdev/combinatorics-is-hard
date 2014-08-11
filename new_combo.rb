@@ -28,7 +28,7 @@ class Combo
       teams_list << team
     end
     refresh_score
-    score(1, teams_list)            # output 'score' for this round
+    tally_results(1, teams_list)            # output 'score' for this round
   end
 
   def run
@@ -41,7 +41,7 @@ class Combo
       best_group = rated_groupings.last
       process_group(best_group)
       refresh_score
-      score(counter, best_group)
+      tally_results(counter, best_group)
     end
     puts "#{counter} iterations"
   end
@@ -129,7 +129,7 @@ class Combo
     @yet_to_pair.keys.select {|k| @yet_to_pair[k].length == number}
   end
 
- def score(counter, teams_list)
+ def tally_results(counter, teams_list)
     puts "ROUND #{counter}"
     puts "*" * 10
     puts "score: #{@score}"
